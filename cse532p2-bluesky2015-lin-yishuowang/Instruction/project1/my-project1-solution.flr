@@ -1,0 +1,372 @@
+/****************************************************************************
+CSE532 -- Project 2
+File name: All SQL
+Author(s): Yishuo Wang (108533945)
+	       Minghui Lin (109557872)
+Brief description: Data in Datalog
+****************************************************************************/
+
+/*****************************************************************************
+   // describes contestants of TDB
+   contestant(Id: symbol, Name: symbol)
+   Key: Id
+
+   // describes artworks of TDB
+   artwork(Id: symbol, Name: symbol)
+   Key: Id
+   
+   // describes judges of TDB
+   judge(Id: symbol, Name: symbol)
+   Key: Id
+
+   // describe shows of TDB
+   show(Id: symbol, Date: date, Judges)
+   Key: Id
+   
+   // describe audition of TDB
+   audition(Show: symbol, Contestant: symbol, 
+   Artwork: symbol, Judge: Score: integer)
+   Key: Show, Contestant, Artwork, Judge
+*****************************************************************************/
+
+/*****************************************************************************
+//                  ALL DATA IN TDB
+*****************************************************************************/
+
+// data of artworks
+artwork(a1, Barcarolle).
+artwork(a2, Giselle).
+artwork(a3, Bumblebee).
+artwork(a4, 'Besame Mucho').
+artwork(a5, 'Swan Lake').
+artwork(a6, Habanera).
+
+// data of judges
+judge(j1, Judy).
+judge(j2, Lucy).
+judge(j3, Irving).
+judge(j4, Phil).
+judge(j5, Oscar).
+
+// data of shows
+show(s1, 20140202, {j1, j2, j3}).
+show(s2, 20140402, {j1, j4}).
+show(s3, 20140605, {j3, j4, j5}).
+show(s4, 20140802, {j2, j5}).
+show(s5, 20140605, {j2, j3, j4}).
+
+// data of contestant
+contestant(c1, Joe).
+contestant(c2, Bob).
+contestant(c3, Mary).
+contestant(c4, Bess).
+contestant(c5, Tom).
+contestant(c6, Don).
+contestant(c7, Ann).
+
+// data of auditions in different shows
+// auditions in show1
+audition(s1, c1, a1, j1, 7).
+audition(s1, c1, a1, j2, 8).
+audition(s1, c1, a1, j3, 6).
+
+audition(s1, c3, a1, j1, 5).
+audition(s1, c3, a1, j2, 6).
+audition(s1, c3, a1, j3, 6).
+
+audition(s1, c3, a2, j1, 9).
+audition(s1, c3, a2, j2, 6).
+audition(s1, c3, a2, j3, 8).
+
+audition(s1, c4, a4, j1, 4).
+audition(s1, c4, a4, j2, 5).
+audition(s1, c4, a4, j3, 6).
+
+audition(s1, c6, a4, j1, 9).
+audition(s1, c6, a4, j2, 9).
+audition(s1, c6, a4, j3, 7).
+
+audition(s1, c6, a5, j1, 7).
+audition(s1, c6, a5, j2, 7).
+audition(s1, c6, a5, j3, 10).
+
+// auditions in show2
+audition(s2, c2, a5, j1, 8).
+audition(s2, c2, a5, j4, 6).
+
+audition(s2, c3, a6, j1, 3).
+audition(s2, c3, a6, j4, 5).
+
+audition(s2, c3, a4, j1, 9).
+audition(s2, c3, a4, j4, 10).
+
+audition(s2, c7, a6, j1, 7).
+audition(s2, c7, a6, j4, 6).
+
+audition(s2, c4, a2, j1, 8).
+audition(s2, c4, a2, j4, 7).
+
+audition(s2, c5, a4, j1, 5).
+audition(s2, c5, a4, j4, 5).
+
+audition(s2, c5, a3, j1, 7).
+audition(s2, c5, a3, j4, 6).
+
+// auditions in show3
+audition(s3, c2, a3, j3, 8).
+audition(s3, c2, a3, j4, 7).
+audition(s3, c2, a3, j5, 9).
+
+audition(s3, c7, a4, j3, 7).
+audition(s3, c7, a4, j4, 6).
+audition(s3, c7, a4, j5, 4).
+
+audition(s3, c4, a5, j3, 6).
+audition(s3, c4, a5, j4, 8).
+audition(s3, c4, a5, j5, 7).
+
+audition(s3, c5, a1, j3, 9).
+audition(s3, c5, a1, j4, 7).
+audition(s3, c5, a1, j5, 6).
+
+audition(s3, c6, a2, j3, 8).
+audition(s3, c6, a2, j4, 6).
+audition(s3, c6, a2, j5, 9).
+
+// auditions in show4
+audition(s4, c1, a3, j2, 7).
+audition(s4, c1, a3, j5, 6).
+
+audition(s4, c2, a1, j2, 6).
+audition(s4, c2, a1, j5, 8).
+
+audition(s4, c7, a4, j2, 9).
+audition(s4, c7, a4, j5, 8).
+
+audition(s4, c5, a3, j2, 8).
+audition(s4, c5, a3, j5, 10).
+
+audition(s4, c5, a1, j2, 5).
+audition(s4, c5, a1, j5, 5).
+
+// auditions in show5
+audition(s5, c2, a5, j2, 3).
+audition(s5, c2, a5, j3, 5).
+audition(s5, c2, a5, j4, 6).
+
+audition(s5, c2, a2, j2, 4).
+audition(s5, c2, a2, j3, 6).
+audition(s5, c2, a2, j4, 8).
+
+audition(s5, c3, a1, j2, 5).
+audition(s5, c3, a1, j3, 7).
+audition(s5, c3, a1, j4, 10).
+
+audition(s5, c3, a4, j2, 6).
+audition(s5, c3, a4, j3, 8).
+audition(s5, c3, a4, j4, 7).
+
+audition(s5, c7, a4, j2, 7).
+audition(s5, c7, a4, j3, 9).
+audition(s5, c7, a4, j4, 6).
+
+audition(s5, c4, a4, j2, 9).
+audition(s5, c4, a4, j3, 8).
+audition(s5, c4, a4, j4, 8).
+
+audition(s5, c4, a6, j2, 8).
+audition(s5, c4, a6, j3, 7).
+audition(s5, c4, a6, j4, 10).
+
+audition(s5, c5, a3, j2, 6).
+audition(s5, c5, a3, j3, 6).
+audition(s5, c5, a3, j4, 8).
+
+audition(s5, c6, a3, j2, 5).
+audition(s5, c6, a3, j3, 8).
+audition(s5, c6, a3, j4, 7).
+
+/*****************************************************************************
+//              MY SOLUTION TO 5 Queries
+*****************************************************************************/
+/*****************************************
+  Query#1: 
+    Find all pairs of contestants who auditioned the same 
+    artwork on the same date and got the same score from 
+    at least one judge (not necessarily the same judge). 
+    
+    Idea:
+    1) First limit pairs of contestants
+    2) Limit audition with the same Artwork and Score
+    3) Limit the show with the same Date
+*****************************************/
+
+// This is multi-line rule.
+Query1(?CN1,?CN2) :- 
+        contestant(?Cont1, ?CN1),
+        contestant(?Cont2, ?CN2),
+        ?Cont1 != ?Cont2,
+        ?CN1 @< ?CN2,
+        
+        audition(?Show1, ?Cont1, ?Artwork, ?, ?Score),
+        audition(?Show2, ?Cont2, ?Artwork, ?, ?Score),
+        
+        show(?Show1, ?Date, ?),
+        show(?Show2, ?Date, ?).
+
+        
+
+/*****************************************
+  Query#2: 
+    Find all pairs of contestants who happened to audition 
+    the same artwork (in possibly different shows) and got 
+    the same maximal score and the same minimal score for 
+    that audition (from possibly different judges).
+    
+    Idea: 
+    1) First limit pairs of contestants
+    2) Limit same max Scores 
+    3) Limit same min Scores 
+*****************************************/
+
+// This is multi-line rule.
+Query2(?CN1, ?CN2) :- 
+    contestant(?Cont1, ?CN1),
+    contestant(?Cont2, ?CN2),
+    ?Cont1 != ?Cont2,
+    ?CN1 @< ?CN2,
+
+    audition(?, ?Cont1, ?Artwork, ?, ?MaxScore),
+    audition(?, ?Cont2, ?Artwork, ?, ?MaxScore),
+    ?MaxScore = 
+    max{?_MaxScore1 | audition(?, ?Cont1, ?Artwork, ?, ?_MaxScore1)},
+    
+    audition(?, ?Cont1, ?Artwork, ?, ?MinScore),
+    audition(?, ?Cont2, ?Artwork, ?, ?MinScore),
+    ?MinScore = 
+    min{?_MaxScore2 | audition(?, ?Cont1, ?Artwork, ?, ?_MaxScore2)}.
+     
+/*****************************************
+  Query#3: 
+    Find all pairs of contestants who auditioned the same artwork in 
+    (possibly different) shows that had the same number of judges 
+    and the two contestants received the same average score for 
+    that audition.
+    
+    Idea: 
+    1) First limit pairs of contestants
+    2) Limit audition with the same Artwork
+    3) Limit JudgeNum and AvgScore with the same number
+*****************************************/
+
+// This is multi-line rule.
+Query3(?CN1, ?CN2) :- 
+    contestant(?Cont1, ?CN1),
+    contestant(?Cont2, ?CN2),
+    ?Cont1 != ?Cont2,
+    ?CN1 @< ?CN2,
+    
+    audition(?Show1, ?Cont1, ?Artwork, ?, ?),
+    audition(?Show2, ?Cont2, ?Artwork, ?, ?),
+    
+    ?JudgeNum1 = 
+    count{?Judge1 | audition(?Show1, ?Cont1, ?Artwork, ?Judge1, ?)},
+    
+    ?JudgeNum2 = 
+    count{?Judge2 | audition(?Show2, ?Cont2, ?Artwork, ?Judge2, ?)},
+    
+    ?JudgeNum1 = ?JudgeNum2,
+    
+    ?AvgScore1 = avg{?Score1 | audition(?Show1, ?Cont1, ?Artwork, ?, ?Score1)},
+    ?AvgScore2 = avg{?Score2 | audition(?Show2, ?Cont2, ?Artwork, ?, ?Score2)},
+    ?AvgScore1 = ?AvgScore2.
+
+  
+/*****************************************
+  Query#4: 
+    Find all pairs of contestants (by name) such that the First contestant in 
+    each pair performed in all the shows in which the second contestant did 
+    (possibly performing different artworks). Write this query using explicit 
+    quantifiers (forall and exists). All variables that do not occur in the 
+    query's rule head must be quantified explicitly.
+    
+    Idea: 
+    1) First limit pairs of contestants
+    2) Forall Show, Show(First contestant) >= Show(Second contestant)
+*****************************************/
+
+// This is multi-line rule.
+Query4(?CN1, ?CN2):-
+
+    contestant(?Cont1, ?CN1),
+    contestant(?Cont2, ?CN2),
+    ?Cont1 != ?Cont2,
+    
+    forall(?Show)^(
+        audition(?Show, ?Cont2, ?, ?, ?) ~~> audition(?Show, ?Cont1, ?, ?, ?)
+    ).
+ 
+
+ 
+/*****************************************
+Query#5: 
+    Find all close rivals. The close rivals relation is the transitive closure 
+    of the following binary relation: X and Y are direct close rivals iff they 
+    both performed the same artwork in the same show and their overall average 
+    scores are within 0.2 of each other.
+    
+    Idea: 
+    1) First limit pairs of contestants
+    2) Use DirectCloseRivals() & InDirectCloseRivals()
+*****************************************/
+// This is multi-line rule.
+DirectCloseRivals(?Cont1, ?Cont2) :- 
+    
+    contestant(?Cont1, ?),
+    contestant(?Cont2, ?),
+
+    ?Average1 = avg{?Score1 | audition(?Show, ?Cont1, ?Artwork, ?, ?Score1)},
+    ?Average2 = avg{?Score2 | audition(?Show, ?Cont2, ?Artwork, ?, ?Score2)},
+    
+    ?Average1 - ?Average2 =< 0.2, 
+    ?Average1 - ?Average2 >= -0.2.
+
+// This is multi-line rule.
+InDirectCloseRivals(?Cont1, ?Cont2) :- 
+    DirectCloseRivals(?Cont1, ?Cont2).
+
+// This is multi-line rule.
+InDirectCloseRivals(?Cont1, ?Cont2) :- 
+    DirectCloseRivals(?Cont1, ?Cont3),
+    InDirectCloseRivals(?Cont3, ?Cont2).
+    
+// This is multi-line rule.
+Query5(?CN1, ?CN2) :- 
+
+    contestant(?Cont1, ?CN1),
+    contestant(?Cont2, ?CN2),
+    ?Cont1 != ?Cont2,
+    ?CN1 @< ?CN2,
+    
+    (DirectCloseRivals(?Cont1, ?Cont2);
+    InDirectCloseRivals(?Cont1, ?Cont2)).
+
+    
+    
+/*****************************************************************************
+//      OUTPUT RESULT OF SOLUTION TO QUERIES
+*****************************************************************************/
+?-writeln('--- Query 1 answers ---')@\io,
+                                        Query1(?CN1,?CN2).
+
+?-writeln('--- Query 2 answers ---')@\io,
+                                        Query2(?CN1, ?CN2).
+                                        
+?-writeln('--- Query 3 answers ---')@\io,
+                                        Query3(?CN1, ?CN2).
+                                        
+?-writeln('--- Query 4 answers ---')@\io,
+                                        Query4(?CN1, ?CN2).
+                                        
+?-writeln('--- Query 5 answers ---')@\io,
+                                        Query5(?CN1, ?CN2).

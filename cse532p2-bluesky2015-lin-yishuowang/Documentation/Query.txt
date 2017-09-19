@@ -1,0 +1,141 @@
+/****************************************************************************
+CSE532 -- Project 2
+File name: All Query
+Author(s): Yishuo Wang (108533945)
+	   Minghui Lin (109557872)
+Brief description: All the query
+****************************************************************************/
+Query 1:
+SELECT DISTINCT c1."Name", c2."Name"
+FROM public."Contestant" c1, public."Contestant" c2, 
+    public."Audition" a1, public."Audition" a2,
+    public."Show" s1, public."Show" s2
+WHERE c1."CId" != c2."CId" AND c1."Name" < c2."Name"
+    AND a1."CId" = c1."CId" AND a2."CId" = c2."CId" AND a1."AId" = a2."AId" AND a1."Score" = a2."Score"
+    AND a1."SId" = s1."SId" AND a2."SId" = s2."SId" AND s1."Date" = s2."Date"
+
+---------------------------------------------------------
+Query 2:
+SELECT R.name1, R.name2 FROM
+(
+	SELECT DISTINCT c1."Name" name1, c2."Name" name2, 
+ 		MAX(a1."Score") OVER (PARTITION BY a1."CId", a1."SId", a1."AId") max1, 
+		MAX(a2."Score") OVER (PARTITION BY a2."CId", a2."SId", a2."AId") max2,
+		MIN(a1."Score") OVER (PARTITION BY a1."CId", a1."SId", a1."AId") min1, 
+		MIN(a2."Score") OVER (PARTITION BY a2."CId", a2."SId", a2."AId") min2
+	FROM "Contestant" c1, "Contestant" c2, 
+   		"Audition" a1, "Audition" a2
+	WHERE c1."CId" != c2."CId" AND c1."Name" < c2."Name"
+    	AND a1."CId" = c1."CId" AND a2."CId" = c2."CId" AND a1."AId" = a2."AId"
+	GROUP BY name1, name2, 		 
+    		a1."Score", a2."Score", 
+    		a1."CId", a2."CId",
+    		a1."SId", a2."SId", 
+			a1."AId", a2."AId"
+) R
+
+WHERE R.max1 = R.max2 AND R.min1 = R.min2
+ORDER BY R.name1
+
+---------------------------------------------------------
+Query 3:
+CREATE OR REPLACE VIEW "SAME_ARTWORK" AS
+	SELECT a1."CId", a1."AId", count(a1."JId") "JUDGE_NUM", avg(a1."Score") "AVG_SCORE"
+	FROM "Audition" a1
+	GROUP BY a1."CId", a1."AId", a1."SId"
+	ORDER BY a1."CId";
+
+SELECT DISTINCT C1."Name" name1, C2."Name" name2
+	FROM "SAME_ARTWORK" S1, "SAME_ARTWORK" S2, "Contestant" C1, "Contestant" C2
+	WHERE
+    	S1."CId" = C1."CId" AND
+		S2."CId" = C2."CId" AND
+    	S1."CId" != S2."CId" AND
+		C1."Name" < C2."Name" AND
+		S1."AId" = S2."AId" AND
+		S1."JUDGE_NUM" = S2."JUDGE_NUM" AND
+		S1."AVG_SCORE" = S2."AVG_SCORE" 
+	ORDER BY C1."Name";
+
+---------------------------------------------------------
+Query 4:
+CREATE OR REPLACE VIEW "Show_Contestants" AS
+	SELECT a1."CId", a1."SId"
+	FROM "Audition" a1
+	GROUP BY a1."CId", a1."SId"
+	ORDER BY a1."CId";
+
+SELECT DISTINCT contestant1."Name", contestant2."Name"
+FROM "Contestant" contestant1, "Contestant" contestant2
+WHERE NOT EXISTS
+	(
+	SELECT DISTINCT c1."Name", c2."Name"
+    FROM 
+    	"Contestant" c1, 
+    	"Contestant" c2,
+		"Show_Contestants" sc1, 
+    	"Show_Contestants" sc2
+ 	WHERE 
+    	contestant1."CId" = c1."CId" 
+    	AND contestant2."CId" = c2."CId" 
+    	AND c1."CId" != c2."CId"
+ 		AND sc1."CId" = c1."CId" 
+    	AND sc2."CId" = c2."CId"
+		AND sc2."SId" NOT IN (SELECT sc3."SId"
+                         	  FROM "Show_Contestants" sc3
+                         	  WHERE sc3."CId" = sc1."CId"
+                         	  )
+    ) 
+	AND contestant1."CId" != contestant2."CId"
+---------------------------------------------------------
+
+Query 5:
+------------------
+--  Direct part(will be copied to Recursive part only)  --
+------------------
+SELECT DISTINCT view1."CId" cid1, view2."CId" cid2
+FROM "AVG_VIEW" view1, "AVG_VIEW" view2, 
+    "Audition" A1, "Audition" A2
+WHERE
+    view1."CId" != view2."CId" AND
+    view1."CId" = A1."CId" AND
+    view2."CId" = A2."CId" AND
+    A1."AId" = A2."AId" AND
+    A1."SId" = A2."SId" AND
+    abs(view1."AVG_SCORE" - view2."AVG_SCORE") <= 0.2;
+--------------------
+--  Recusive part --
+--------------------
+CREATE OR REPLACE RECURSIVE VIEW "CLOSRURE" (cid1, cid2) AS
+    SELECT DISTINCT view1."CId" cid1, view2."CId" cid2
+    FROM "AVG_VIEW" view1, "AVG_VIEW" view2, 
+        "Audition" A1, "Audition" A2
+    WHERE
+    	view1."CId" != view2."CId" AND
+        view1."CId" = A1."CId" AND
+        view2."CId" = A2."CId" AND
+        A1."AId" = A2."AId" AND
+        A1."SId" = A2."SId" AND
+        abs(view1."AVG_SCORE" - view2."AVG_SCORE") <= 0.2  
+UNION
+    SELECT DISTINCT CL."cid1" cid2, view2."CId" cid1
+    FROM "AVG_VIEW" view1, "AVG_VIEW" view2, 
+        "Audition" A1, "Audition" A2,
+        "CLOSRURE" CL
+    WHERE
+        view1."CId" != view2."CId" AND
+        view1."CId" = A1."CId" AND
+        view2."CId" = A2."CId" AND
+        A1."AId" = A2."AId" AND
+        A1."SId" = A2."SId" AND
+        abs(view1."AVG_SCORE" - view2."AVG_SCORE") <= 0.2 AND
+        view1."CId" = CL."cid2";
+--------------------------------
+--  Display final result part --
+--------------------------------
+SELECT C1."Name", C2."Name"
+FROM "CLOSRURE" CL, "Contestant" C1, "Contestant" C2
+WHERE CL."cid1" = C1."CId" AND
+CL."cid2" = C2."CId" AND
+C1."Name" < C2."Name"
+ORDER BY C1."Name",C2."Name";

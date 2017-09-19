@@ -1,0 +1,150 @@
+<xs:schema xmlns="http://localhost:8080/exist/CSE532" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://localhost:8080/exist/CSE532">
+    <xs:element name="CId" type="xs:string"/>
+    <xs:element name="SId" type="xs:string"/>
+    <xs:element name="AId" type="xs:string"/>
+    <xs:element name="JId" type="xs:string"/>
+    <xs:element name="Name" type="xs:string"/>
+    <xs:element name="Date" type="xs:date"/>
+    <xs:element name="Score" type="xs:positiveInteger"/>
+
+    <xs:element name="Contestant">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="CId"/>
+                <xs:element ref="Name"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Artwork">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="AId"/>
+                <xs:element ref="Name"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Show">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="SId"/>
+                <xs:element ref="Date"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Judge">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="JId"/>
+                <xs:element ref="Name"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>  
+    <xs:element name="Audition">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Score" maxOccurs="10" minOccurs="0"/>
+                <xs:element ref="CId"/>
+                <xs:element ref="AId"/>
+                <xs:element ref="SId"/>
+                <xs:element ref="JId"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element> 
+
+    <xs:element name="Contestants">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Contestant" maxOccurs="unbounded" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Shows">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Show" maxOccurs="unbounded" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element> 
+    <xs:element name="Artworks">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Artwork" maxOccurs="unbounded" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element> 
+    <xs:element name="Judges">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Judge" maxOccurs="unbounded" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element> 
+    <xs:element name="Auditions">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Audition" maxOccurs="unbounded" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element> 
+
+    <xs:element name="CSE532">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Contestants"/>
+                <xs:element ref="Shows"/>
+                <xs:element ref="Artworks"/>
+                <xs:element ref="Judges"/>
+                <xs:element ref="Auditions"/>
+            </xs:sequence>
+        </xs:complexType>
+        
+        <!-- Definition of keys -->
+        <xs:key name="PrimaryKeyForContestant">
+            <xs:selector xpath="Contestant"/>
+            <xs:field xpath="CId"/>
+        </xs:key>
+
+        <xs:key name="PrimaryKeyForShow">
+            <xs:selector xpath="Show"/>
+            <xs:field xpath="SId"/>
+        </xs:key>
+
+        <xs:key name="PrimaryKeyForArtwork">
+            <xs:selector xpath="Artwork"/>
+            <xs:field xpath="AId"/>
+        </xs:key>
+
+        <xs:key name="PrimaryKeyForJudge">
+            <xs:selector xpath="Judge"/>
+            <xs:field xpath="JId"/>
+        </xs:key>
+
+        <xs:key name="PrimaryKeyForAudition">
+            <xs:selector xpath="Audition"/>
+            <xs:field xpath="CId"/>
+            <xs:field xpath="SId"/>
+            <xs:field xpath="AId"/>
+            <xs:field xpath="JId"/>
+        </xs:key>
+
+        <xs:keyref name="FKContestant" refer="PrimaryKeyForContestant">
+            <xs:selector xpath="Audition"/>
+            <xs:field xpath="CId"/>
+        </xs:keyref>
+
+        <xs:keyref name="FKShow" refer="PrimaryKeyForShow">
+            <xs:selector xpath="Audition"/>
+            <xs:field xpath="SId"/>
+        </xs:keyref>
+
+        <xs:keyref name="FKArtwork" refer="PrimaryKeyForArtwork">
+            <xs:selector xpath="Audition"/>
+            <xs:field xpath="AId"/>
+        </xs:keyref>
+
+        <xs:keyref name="FKJudge" refer="PrimaryKeyForJudge">
+            <xs:selector xpath="Audition"/>
+            <xs:field xpath="JId"/>
+        </xs:keyref>
+    </xs:element>
+</xs:schema>

@@ -1,0 +1,22 @@
+/****************************************************************************
+CSE532 -- Project 2
+File name: ER Diagram
+Author(s): Yishuo Wang (108533945)
+	   Minghui Lin (109557872)
+Brief description: ER Diagram
+****************************************************************************/
+There are 5 Entity types in the ER Diagram.
+1) Constestant: CId, Name
+Primary Key: CId
+
+2) Artwork: AId, Name
+Primary Key: AId
+
+3) Show: SId, Date
+Primary Key: SId
+
+4) Judge: JId, Name
+Primary Key: JId
+
+5) Audition: CId, AId, SId, JId, Score
+Primary Key: CId, AId, SId, JId

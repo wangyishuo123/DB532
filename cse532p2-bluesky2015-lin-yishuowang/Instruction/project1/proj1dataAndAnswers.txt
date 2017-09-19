@@ -1,0 +1,196 @@
+TEST DATA
+=========
+
+Contestants: Joe, Bob, Mary, Ann, Bess, Tom, Don.
+Pieces: Barcarolle, Giselle, Bumblebee, Besame Mucho, Swan Lake, Habanera.
+Shows:
+       Show1: Date=20140202, Judges=Judy, Lucy, Irving
+       Show2: Date=20140402, Judges=Judy, Phil
+       Show3: Date=20140605, Judges=Irving, Phil, Oscar
+       Show4: Date=20140802, Judges=Lucy, Oscar
+       Show5: Date=20140605, Judges=Lucy, Irving, Phil
+
+Auditions
+       Format for auditions: contestant/Piece: scores.
+       The scores are in the order of judges listed in the shows, as above.
+
+       Show1
+         Joe / Barcarolle:     7,8,6   (ie, Judy-7; Lucy-8; Irving-6)
+	 Mary / Barcarolle:    5,6,6
+	 Mary / Giselle:       9,6,8
+	 Bess / Besame Mucho:  4,5,6
+	 Don / Besame Mucho:   9,9,7
+	 Don / Swan Lake:      7,7,10
+
+       Show2
+         Bob / Swan Lake:      8,6
+	 Mary / Habanera:      3,5
+	 Mary / Besame Mucho:  9,10
+	 Ann / Habanera:       7,6
+	 Bess / Giselle:       8,7
+	 Tom / Besame Mucho:   5,5
+	 Tom / Bumblebee:      7,6
+
+       Show3
+	 Bob / Bumblebee:      8,7,9
+	 Ann / Besame Mucho:   7,6,4
+	 Bess / Swan Lake:     6,8,7
+	 Tom / Barcarolle:     9,7,6
+	 Don / Giselle:        8,6,9
+
+       Show4
+         Joe / Bumblebee:      7,6
+	 Bob / Barcarolle:     6,8
+	 Ann / Besame Mucho:   9,8
+	 Tom / Bumblebee:      8,10
+	 Tom / Barcarolle:     5,5
+
+        Show5
+	  Bob / Swan Lake:     3,5,6
+	  Bob / Giselle:       4,6,8
+	  Mary / Barcarolle:   5,7,10
+	  Mary / Besame Mucho: 6,8,7
+	  Ann / Besame Mucho:  7,9,6
+	  Bess / Besame Mucho: 9,8,8
+	  Bess / Habanera:     8,7,10
+	  Tom / Bumblebee:     6,6,8
+	  Don / Bumblebee:     5,8,7
+       
+
+ANSWERS:
+========
+
+Query 1:
+
+?CN1 = Ann
+?CN2 = Bess
+
+?CN1 = Ann
+?CN2 = Mary
+
+?CN1 = Bess
+?CN2 = Bob
+
+?CN1 = Bess
+?CN2 = Mary
+
+?CN1 = Bob
+?CN2 = Don
+
+?CN1 = Bob
+?CN2 = Tom
+
+?CN1 = Don
+?CN2 = Tom
+
+?CN1 = Joe
+?CN2 = Mary
+
+?CN1 = Mary
+?CN2 = Tom
+
+9 solution(s) 
+
+
+Query 2:
+
+?CN1 = Ann
+?CN2 = Bess
+
+?CN1 = Bess
+?CN2 = Bob
+
+?CN1 = Bob
+?CN2 = Joe
+
+?CN1 = Don
+?CN2 = Mary
+
+?CN1 = Joe
+?CN2 = Tom
+
+5 solution(s)
+
+
+Query 3:
+
+?CN1 = Bess
+?CN2 = Don
+
+?CN1 = Don
+?CN2 = Mary
+
+?CN1 = Don
+?CN2 = Tom
+
+?CN1 = Joe
+?CN2 = Tom
+
+?CN1 = Mary
+?CN2 = Tom
+
+5 solution(s)
+
+
+Query 4:
+
+?CN1 = Ann
+?CN2 = Bob
+
+?CN1 = Ann
+?CN2 = Tom
+
+?CN1 = Bess
+?CN2 = Don
+
+?CN1 = Bess
+?CN2 = Mary
+
+?CN1 = Bob
+?CN2 = Ann
+
+?CN1 = Bob
+?CN2 = Tom
+
+?CN1 = Tom
+?CN2 = Ann
+
+?CN1 = Tom
+?CN2 = Bob
+
+8 solution(s)
+
+
+Query 5:
+
+?CN1 = Ann
+?CN2 = Bob
+
+?CN1 = Ann
+?CN2 = Joe
+
+?CN1 = Ann
+?CN2 = Mary
+
+?CN1 = Ann
+?CN2 = Tom
+
+?CN1 = Bob
+?CN2 = Joe
+
+?CN1 = Bob
+?CN2 = Mary
+
+?CN1 = Bob
+?CN2 = Tom
+
+?CN1 = Joe
+?CN2 = Mary
+
+?CN1 = Joe
+?CN2 = Tom
+
+?CN1 = Mary
+?CN2 = Tom
+
+10 solution(s) 

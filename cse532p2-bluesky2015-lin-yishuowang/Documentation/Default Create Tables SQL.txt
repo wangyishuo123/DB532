@@ -1,0 +1,123 @@
+/****************************************************************************
+CSE532 -- Project 2
+File name: Default SQL CREATE TABLE
+Author(s): Yishuo Wang (108533945)
+	   Minghui Lin (109557872)
+Brief description: All Default SQL CREATE TABLE/VIEW/TYPE
+****************************************************************************/
+/**********************************
+    Create Database cse532db
+**********************************/
+CREATE DATABASE cse532db
+    WITH 
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'English_United States.1252'
+    LC_CTYPE = 'English_United States.1252'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+
+/**********************************
+    Create Table Contestant
+**********************************/
+CREATE TABLE public."Contestant"
+(
+    "CId" character(30) NOT NULL,
+    "Name" character(30),
+    CONSTRAINT "Contestant_pkey" PRIMARY KEY ("CId")
+)
+WITH (
+    OIDS = TRUE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."Contestant"
+    OWNER to postgres;
+
+/**********************************
+    Create Table Artwork
+**********************************/ 
+CREATE TABLE public."Artwork"
+(
+    "AId" character(30) NOT NULL,
+    "Name" character(30),
+    CONSTRAINT "Artwork_pkey" PRIMARY KEY ("AId")
+)
+WITH (
+    OIDS = TRUE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."Artwork"
+    OWNER to postgres;
+
+/**********************************
+    Create Table Show
+**********************************/ 
+CREATE TABLE public."Show"
+(
+    "SId" character(30) NOT NULL,
+    "Date" date,
+    CONSTRAINT "Show_pkey" PRIMARY KEY ("SId")
+)
+WITH (
+    OIDS = TRUE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."Show"
+    OWNER to postgres;
+
+/**********************************
+    Create Table Judge
+**********************************/ 
+CREATE TABLE public."Judge"
+(
+    "JId" character(30) NOT NULL,
+    "Name" character(30),
+    CONSTRAINT "Judge_pkey" PRIMARY KEY ("JId")
+)
+WITH (
+    OIDS = TRUE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."Judge"
+    OWNER to postgres;
+    
+/**********************************
+    Create Table Audition
+**********************************/ 
+CREATE TABLE public."Audition"
+(
+    "Score" integer,
+    "CId" character(30) NOT NULL,
+    "AId" character(30) NOT NULL,
+    "SId" character(30) NOT NULL,
+    "JId" character(30) NOT NULL,
+    CONSTRAINT "Audition_pkey" PRIMARY KEY ("CId", "AId", "SId", "JId"),
+    CONSTRAINT "AId" FOREIGN KEY ("AId")
+        REFERENCES public."Artwork" ("AId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT "CId" FOREIGN KEY ("CId")
+        REFERENCES public."Contestant" ("CId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT "JId" FOREIGN KEY ("JId")
+        REFERENCES public."Judge" ("JId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT "SId" FOREIGN KEY ("SId")
+        REFERENCES public."Show" ("SId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT "Audition_Score_check" CHECK ("Score" >= 0 AND "Score" <= 10)
+)
+WITH (
+    OIDS = TRUE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."Audition"
+    OWNER to postgres;

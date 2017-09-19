@@ -1,0 +1,200 @@
+
+/*
+   // describes users of LinkedOut
+   user(Id: symbol, Name: symbol)
+   Key: Id
+
+   // describes users' work experience (worked for organization, from/to)
+   experience(Id: symbol, Organization: symbol, From: date, To: date)
+   Key: Id, From, To
+
+   // describes users' declared skills
+   skill(Id: symbol, Skill: symbol)
+   Key: Id, Skill
+
+   // some users endorsed others for certain skills
+   endorse(Id: symbol, Endorsee: symbol, Skill: symbol).
+   Key: Id, Endorsee, Skill
+*/
+
+user(u1, Alice).
+experience(u1, 'Stony Brook', 20150101, 20150930).
+skill(u1, Programming).  // in short: skill(u1,{Programming,Instructor}).
+skill(u1, Instructor).
+
+user(u2, Bob).
+experience(u2, 'Stony Brook', 20150801, 20151231).
+experience(u2, Microsoft, 20160101, 20161231).
+skill(u2, {Programming,Boxing}).
+endorse(u2, u1, {Programming,Instructor}).
+endorse(u2, u3, Programming).
+
+user(u3, Carol).
+experience(u3, IBM, 20150601, 20151231).
+skill(u3,Managenemt).
+endorse(u3, u1, Programming).
+endorse(u3, u2, Programming).
+
+user(u4, Dave).
+experience(u4, IBM, 20150601, 20150715).
+skill(u4, Programming).
+endorse(u4, u3, Programming).
+
+user(u5, Eve).
+experience(u5, Google, 20140401, 20160201).
+experience(u5, Paypal, 20100105, 20140301).
+endorse(u5, u6, Schmoozing).
+
+user(u6, Frank).
+experience(u6, Google, 20140601, 20160101).
+experience(u6, EBay, 20061205, 20140520).
+skill(u6, Schmoozing).
+endorse(u6, u5, Schmoozing).
+endorse(u6, u5, 'Quality Assurance').
+
+user(u7, Mallory).
+experience(u7, Oracle, 20100830, 20160330).
+experience(u7, Paypal, 20100105, 20140301).
+experience(u7, EBay, 20061205, 20071220).
+skill(u7, {Programming,Basketball}).
+endorse(u7, u5, Programming).
+endorse(u7, u6, Programming).
+endorse(u7, u7, Programming).
+
+user(u8, Thor).
+experience(u8, Asgard, 00000101, 99991231).
+skill(u8, Programming).
+skill(u8, Instructor).
+skill(u8, 'Hammer Wielding').
+endorse(u8, u4, Programming).
+
+// MISTAKE ALERT: Variable instead of constant
+//endorse(u8, u4, ?Programming).
+
+/*
+  User 1 endorsed User 2 and they both worked for the same organization on
+  Sep 23, 2015.
+*/
+Q1(?Name1,?Name2) :-
+        endorse(?User1,?User2,?),
+        ?User1 != ?User2,
+        user(?User1,?Name1),
+        user(?User2,?Name2),
+        experience(?User1, ?Organization, ?From1, ?To1),
+        experience(?User2, ?Organization, ?From2, ?To2),
+        ?From1 < 20150923, ?To1 > 20150923,
+        ?From2 < 20150923, ?To2 > 20150923.
+
+
+// MISTAKE ALERT: Var ?Name2 not appearing in rule body
+//Q1(?Name1,?Name2) :- user(?,?Name1), user(?,?Name3).
+
+
+/*
+  Users who were endorsed for the skills they do not have (bogus endorsements).
+*/
+Q2(?Name) :-
+    endorse(?User1, ?User2, ?Skill),
+    ?User1 != ?User2,
+    \naf skill(?User2, ?Skill),
+    user(?User1, ?Name).
+
+
+
+/* 
+    User 1 is strictly more skilled than User 2
+*/
+Q3(?Name1>?Name2) :-
+        user(?Id1,?Name1),
+        user(?Id2,?Name2),
+        ?Id1 != ?Id2,
+        forall(?Skill)^(skill(?Id2,?Skill) ~~> skill(?Id1,?Skill)),
+        exists(?Skill)^(skill(?Id1,?Skill), \naf skill(?Id2,Skill)).
+
+/* 
+    User 1 has more skills than User 2 (numerically)
+*/
+Q4(?Name1>?Name2) :-
+        user(?Id1,?Name1),
+        user(?Id2,?Name2),
+        count{?Skill| skill(?Id1,?Skill)} > count{?Skill| skill(?Id2,?Skill)}.
+
+// A symmetric query: equally skilled
+Q4_alt(?Name1+?Name2) :-
+        user(?Id1,?Name1),
+        user(?Id2,?Name2),
+        ?Id1 != ?Id2,
+        count{?Skill| skill(?Id1,?Skill)} = count{?Skill| skill(?Id2,?Skill)}.
+
+// Equally skilled people: breaking the symmetry to avoid isomorphic answers
+Q4_alt2(?Name1+?Name2) :-
+        Q4_alt(?Name1+?Name2),
+        ?Name1 @< ?Name2.       // asymmetric: lexicographic
+
+
+avgNumberOfEndorsements(?AvgNumEndorsements) :-
+        avg{?EndorsementCount |
+              ?EndorsementCount =
+                count{?Endorcement[?User]|endorse(?,?User,?),?Endorcement=1}
+            }
+        = ?AvgNumEndorsements.
+
+/*
+   Compute the average number of endorsements
+*/
+Q5(?AvgNumEndorsements) :-
+        avgNumberOfEndorsements(?AvgNumEndorsements).
+
+/*
+   People with more than the average number of endorsements
+*/
+Q6(?Name+?Endorsements+?AvgNumEndorsements) :-
+        user(?Id,?Name),
+        avgNumberOfEndorsements(?AvgNumEndorsements),
+        ?Endorsements = count{?Endorsement|endorse(?,?Id,?),?Endorsement=1},
+        ?AvgNumEndorsements < ?Endorsements.
+
+/*
+  User 1 endorsed User 2 indirectly, but not directly,
+  while User 2 didn't endorse User 1 in any way.
+*/
+Q7(?Name1 - ?Name2) :-
+        indirectly_endorsed(?Name1,?Name2),
+        \naf directly_endorsed(?Name1,?Name2),
+        \naf indirectly_endorsed(?Name2,?Name1).
+
+directly_endorsed(?Name1,?Name2) :-
+        user(?Id1,?Name1),
+        user(?Id2,?Name2),
+        endorse(?Id1,?Id2,?).
+indirectly_endorsed(?Name1,?Name2) :- directly_endorsed(?Name1,?Name2).
+indirectly_endorsed(?Name1,?Name2) :-
+        directly_endorsed(?Name1,?Name3),
+        indirectly_endorsed(?Name3,?Name2).
+
+
+// MISTAKE ALERT: Wrong number of arguments.
+// ?- Q2(?N,?M).
+
+/*
+*/
+?- writeln('--- Query 1: endorsement by a co-worker ---')@\io,
+        Q1(?User1, ?User2).
+
+?- writeln('--- Query 2: Bogus endorsements ---')@\io,
+        Q2(?Name).
+
+?- writeln('--- Query 3: Strictly more skilled users ---')@\io,
+        Q3(?Pair).
+
+?- writeln('--- Query 4: Numerically more skilled users ---')@\io,
+        Q4(?Pair).
+
+?- writeln('--- Query 5: Average number of endorsements ---')@\io,
+        Q5(?AvgNumberOfEndorsements).
+
+?- writeln('--- Query 6: Users with > than average # of endorsements ---')@\io,
+        Q6(?Answer).
+
+?- writeln('--- Query 7: Endorsements with no reciprocity ---')@\io,
+        Q7(?Answer).

@@ -1,0 +1,118 @@
+<!--
+I pledge my honor that all parts of this project were done by me alone and
+without collaboration with anybody else.
+
+CSE532 - Project 3
+File name: CSE532.xsd
+Author: Yishuo Wang (108533945)
+Brief description: CSE532.xsd is the xml schema
+-->
+<xs:schema xmlns="http://localhost:8080/exist/CSE532" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://localhost:8080/exist/CSE532">
+    <xs:element name="OId" type="xs:string"/>
+    <xs:element name="CId" type="xs:string"/>
+    <xs:element name="SId" type="xs:string"/>
+    <xs:element name="AId" type="xs:string"/>
+    <xs:element name="JId" type="xs:string"/>
+    <xs:element name="Name" type="xs:string"/>
+    <xs:element name="Date" type="xs:date"/>
+    <xs:element name="Score" type="xs:positiveInteger"/>
+
+    
+
+    <xs:element name="Artwork">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="AId"/>
+                <xs:element ref="Name"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Show">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="SId"/>
+                <xs:element ref="Date"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Judge">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="JId"/>
+                <xs:element ref="Name"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Audition">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Score"/>
+                <xs:element ref="Show"/>
+                <xs:element ref="Artwork"/>
+                <xs:element ref="Judge"/>
+                
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="Contestant">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="CId"/>
+                <xs:element ref="Name"/>
+                <xs:element ref="Audition" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="CSE532">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Contestant" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+        
+        <!-- Definition of keys -->
+        <xs:key name="PrimaryKeyForContestant">
+            <xs:selector xpath="Contestant"/>
+            <xs:field xpath="CId"/>
+        </xs:key>
+        <xs:key name="PrimaryKeyForShow">
+            <xs:selector xpath="Show"/>
+            <xs:field xpath="SId"/>
+        </xs:key>
+        <xs:key name="PrimaryKeyForArtwork">
+            <xs:selector xpath="Artwork"/>
+            <xs:field xpath="AId"/>
+        </xs:key>
+        <xs:key name="PrimaryKeyForJudge">
+            <xs:selector xpath="Judge"/>
+            <xs:field xpath="JId"/>
+        </xs:key>
+        <xs:key name="PrimaryKeyForAudition">
+            <xs:selector xpath="Audition"/>
+            <xs:field xpath="Show"/>
+            <xs:field xpath="Artwork"/>
+            <xs:field xpath="Judge"/>
+            
+        </xs:key>
+
+        <xs:keyref name="FKShow" refer="PrimaryKeyForShow">
+            <xs:selector xpath="Audition/Show"/>
+            <xs:field xpath="SId"/>
+        </xs:keyref>
+        <xs:keyref name="FKArtwork" refer="PrimaryKeyForArtwork">
+            <xs:selector xpath="Audition/Artwork"/>
+            <xs:field xpath="AId"/>
+        </xs:keyref>
+        <xs:keyref name="FKJudge" refer="PrimaryKeyForJudge">
+            <xs:selector xpath="Audition/Judge"/>
+            <xs:field xpath="JId"/>
+        </xs:keyref>
+    </xs:element>
+</xs:schema>

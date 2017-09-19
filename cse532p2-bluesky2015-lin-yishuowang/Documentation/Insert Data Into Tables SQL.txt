@@ -1,0 +1,186 @@
+/****************************************************************************
+CSE532 -- Project 2
+File name: Insert All the data
+Author(s): Yishuo Wang (108533945)
+	   Minghui Lin (109557872)
+Brief description: Insert All the data
+****************************************************************************/
+
+/**********************************
+    Insert Contestant Data
+**********************************/
+
+INSERT INTO public."Contestant" ("CId", "Name") VALUES ('c1', 'Joe');
+INSERT INTO public."Contestant" ("CId", "Name") VALUES ('c2', 'Bob');
+INSERT INTO public."Contestant" ("CId", "Name") VALUES ('c3', 'Mary');
+INSERT INTO public."Contestant" ("CId", "Name") VALUES ('c4', 'Bess');
+INSERT INTO public."Contestant" ("CId", "Name") VALUES ('c5', 'Tom');
+INSERT INTO public."Contestant" ("CId", "Name") VALUES ('c6', 'Don');
+INSERT INTO public."Contestant" ("CId", "Name") VALUES ('c7', 'Ann');
+
+
+/**********************************
+    Insert Artwork Data
+**********************************/
+
+INSERT INTO public."Artwork" ("AId", "Name") VALUES ('a1', 'Barcarolle');
+INSERT INTO public."Artwork" ("AId", "Name") VALUES ('a2', 'Giselle');
+INSERT INTO public."Artwork" ("AId", "Name") VALUES ('a3', 'Bumblebee');
+INSERT INTO public."Artwork" ("AId", "Name") VALUES ('a4', 'Besame Mucho');
+INSERT INTO public."Artwork" ("AId", "Name") VALUES ('a5', 'Swan Lake');
+INSERT INTO public."Artwork" ("AId", "Name") VALUES ('a6', 'Habanera');
+
+/**********************************
+    Insert Show Data
+**********************************/
+
+INSERT INTO public."Show" ("SId", "Date") VALUES ('s1', '2014-02-02');
+INSERT INTO public."Show" ("SId", "Date") VALUES ('s2', '2014-04-02');
+INSERT INTO public."Show" ("SId", "Date") VALUES ('s3', '2014-06-05');
+INSERT INTO public."Show" ("SId", "Date") VALUES ('s4', '2014-08-02');
+INSERT INTO public."Show" ("SId", "Date") VALUES ('s5', '2014-06-05');
+
+/**********************************
+    Insert Judge Data
+**********************************/
+
+INSERT INTO public."Judge" ("JId", "Name") VALUES ('j1', 'Judy');
+INSERT INTO public."Judge" ("JId", "Name") VALUES ('j2', 'Lucy');
+INSERT INTO public."Judge" ("JId", "Name") VALUES ('j3', 'Irving');
+INSERT INTO public."Judge" ("JId", "Name") VALUES ('j4', 'Phil');
+INSERT INTO public."Judge" ("JId", "Name") VALUES ('j5', 'Oscar');
+
+
+/**********************************
+    Insert Audition Data
+**********************************/
+
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('7', 'c1', 'a1', 's1', 'j1');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('8', 'c1', 'a1', 's1', 'j2');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('6', 'c1', 'a1', 's1', 'j3');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('5', 'c3', 'a1', 's1', 'j1');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('6', 'c3', 'a1', 's1', 'j2');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('6', 'c3', 'a1', 's1', 'j3');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('9', 'c3', 'a2', 's1', 'j1');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('6', 'c3', 'a2', 's1', 'j2');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('8', 'c3', 'a2', 's1', 'j3');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('4', 'c4', 'a4', 's1', 'j1');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('5', 'c4', 'a4', 's1', 'j2');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('6', 'c4', 'a4', 's1', 'j3');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('9', 'c6', 'a4', 's1', 'j1');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('9', 'c6', 'a4', 's1', 'j2');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('7', 'c6', 'a4', 's1', 'j3');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('7', 'c6', 'a5', 's1', 'j1');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('7', 'c6', 'a5', 's1', 'j2');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('10', 'c6', 'a5', 's1', 'j3');
+
+
+
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('8', 'c2', 'a5', 's2', 'j1');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('6', 'c2', 'a5', 's2', 'j4');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('3', 'c3', 'a6', 's2', 'j1');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('5', 'c3', 'a6', 's2', 'j4');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('9', 'c3', 'a4', 's2', 'j1');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('10', 'c3', 'a4', 's2', 'j4');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('7', 'c7', 'a6', 's2', 'j1');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('6', 'c7', 'a6', 's2', 'j4');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('8', 'c4', 'a2', 's2', 'j1');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('7', 'c4', 'a2', 's2', 'j4');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('5', 'c5', 'a4', 's2', 'j1');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('5', 'c5', 'a4', 's2', 'j4');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('7', 'c5', 'a3', 's2', 'j1');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('6', 'c5', 'a3', 's2', 'j4');
+
+
+
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('8', 'c2', 'a3', 's3', 'j3');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('7', 'c2', 'a3', 's3', 'j4');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('9', 'c2', 'a3', 's3', 'j5');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('7', 'c7', 'a4', 's3', 'j3');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('6', 'c7', 'a4', 's3', 'j4');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('4', 'c7', 'a4', 's3', 'j5');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('6', 'c4', 'a5', 's3', 'j3');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('8', 'c4', 'a5', 's3', 'j4');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('7', 'c4', 'a5', 's3', 'j5');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('9', 'c5', 'a1', 's3', 'j3');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('7', 'c5', 'a1', 's3', 'j4');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('6', 'c5', 'a1', 's3', 'j5');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('8', 'c6', 'a2', 's3', 'j3');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('6', 'c6', 'a2', 's3', 'j4');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('9', 'c6', 'a2', 's3', 'j5');
+
+
+
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('7', 'c1', 'a3', 's4', 'j2');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('6', 'c1', 'a3', 's4', 'j5');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('6', 'c2', 'a1', 's4', 'j2');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('8', 'c2', 'a1', 's4', 'j5');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('9', 'c7', 'a4', 's4', 'j2');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('8', 'c7', 'a4', 's4', 'j5');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('8', 'c5', 'a3', 's4', 'j2');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('10', 'c5', 'a3', 's4', 'j5');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('5', 'c5', 'a1', 's4', 'j2');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('5', 'c5', 'a1', 's4', 'j5');
+
+
+
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('3', 'c2', 'a5', 's5', 'j2');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('5', 'c2', 'a5', 's5', 'j3');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('6', 'c2', 'a5', 's5', 'j4');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('4', 'c2', 'a2', 's5', 'j2');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('6', 'c2', 'a2', 's5', 'j3');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('8', 'c2', 'a2', 's5', 'j4');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('5', 'c3', 'a1', 's5', 'j2');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('7', 'c3', 'a1', 's5', 'j3');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('10', 'c3', 'a1', 's5', 'j4');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('6', 'c3', 'a4', 's5', 'j2');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('8', 'c3', 'a4', 's5', 'j3');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('7', 'c3', 'a4', 's5', 'j4');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('7', 'c7', 'a4', 's5', 'j2');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('9', 'c7', 'a4', 's5', 'j3');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('6', 'c7', 'a4', 's5', 'j4');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('9', 'c4', 'a4', 's5', 'j2');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('8', 'c4', 'a4', 's5', 'j3');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('8', 'c4', 'a4', 's5', 'j4');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('8', 'c4', 'a6', 's5', 'j2');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('7', 'c4', 'a6', 's5', 'j3');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('10', 'c4', 'a6', 's5', 'j4');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('6', 'c5', 'a3', 's5', 'j2');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('6', 'c5', 'a3', 's5', 'j3');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('8', 'c5', 'a3', 's5', 'j4');
+
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('5', 'c6', 'a3', 's5', 'j2');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('8', 'c6', 'a3', 's5', 'j3');
+INSERT INTO public."Audition" ("Score", "CId", "AId", "SId", "JId") VALUES ('7', 'c6', 'a3', 's5', 'j4');
+

@@ -1,0 +1,126 @@
+/****************************************************************************
+CSE532 -- Project 2
+File name: All Object-relational SQL Create
+Author(s): Yishuo Wang (108533945)
+	   Minghui Lin (109557872)
+Brief description: All Object-relational SQL CREATE TABLE/VIEW/TYPE
+****************************************************************************/
+/**********************************
+    Create Database cse532db
+**********************************/
+CREATE DATABASE cse532db
+    WITH 
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'English_United States.1252'
+    LC_CTYPE = 'English_United States.1252'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+**********************************/
+
+
+CREATE TYPE public."Artwork_Type" AS
+(
+	"AId" character(30),
+	"Name" character(30)
+);
+
+
+CREATE TYPE public."Contestant_Type" AS
+(
+	"CId" character(30),
+	"Name" character(30)
+);
+
+
+CREATE TYPE public."Judge_Type" AS
+(
+	"JId" character(30),
+	"Name" character(30)
+);
+
+CREATE TYPE public."Show_Type" AS
+(
+	"SId" character(30),
+	"Date" date
+);
+
+
+CREATE TYPE public."Audition_Type" AS
+(
+	"Score" integer,
+	"CId" character(30),
+	"AId" character(30),
+	"SId" character(30),
+	"JId" character(30)
+);
+------------------------------------------------------------------------------
+			TABLE
+-----------------------------------------------------------------------------
+
+CREATE TABLE public."Artwork"
+    OF "Artwork_Type"
+(
+    CONSTRAINT "Artwork_pkey" PRIMARY KEY ("AId")
+)
+WITH (
+    OIDS = TRUE
+);
+
+
+CREATE TABLE public."Contestant"
+    OF "Contestant_Type"
+(
+    CONSTRAINT "Contestant_pkey" PRIMARY KEY ("CId")
+)
+WITH (
+    OIDS = TRUE
+);
+
+
+CREATE TABLE public."Judge"
+    OF "Judge_Type"
+(
+    CONSTRAINT "Judge_pkey" PRIMARY KEY ("JId")
+)
+WITH (
+    OIDS = TRUE
+);
+
+
+CREATE TABLE public."Show"
+    OF "Show_Type"
+(
+    CONSTRAINT "Show_pkey" PRIMARY KEY ("SId")
+)
+WITH (
+    OIDS = TRUE
+);
+
+
+
+CREATE TABLE public."Audition"
+    OF "Audition_Type"
+(
+    CONSTRAINT "Audition_pkey" PRIMARY KEY ("CId", "AId", "SId", "JId"),
+    CONSTRAINT "AId" FOREIGN KEY ("AId")
+        REFERENCES public."Artwork" ("AId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT "CId" FOREIGN KEY ("CId")
+        REFERENCES public."Contestant" ("CId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT "JId" FOREIGN KEY ("JId")
+        REFERENCES public."Judge" ("JId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT "SId" FOREIGN KEY ("SId")
+        REFERENCES public."Show" ("SId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT "Audition_Score_check" CHECK ("Score" >= 0 AND "Score" <= 10)
+)
+WITH (
+    OIDS = TRUE
+);
